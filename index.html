@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level Up Mushu | Epic Birthday HQ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            pink: '#ff007f',
+                            cyan: '#00f3ff',
+                            purple: '#7928ca',
+                            yellow: '#f5d020',
+                            dark: '#0a0a12',
+                            card: 'rgba(20, 20, 35, 0.75)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                        display: ['Orbitron', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'neon-pink': '0 0 20px rgba(255, 0, 127, 0.6)',
+                        'neon-cyan': '0 0 20px rgba(0, 243, 255, 0.6)',
+                        'neon-purple': '0 0 20px rgba(121, 40, 202, 0.6)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            background-color: #06060c;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-display { font-family: 'Orbitron', sans-serif; }
+        .font-mono { font-family: 'Fira Code', monospace; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a40;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff007f;
+        }
+
+        /* Scanline Overlay */
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.3)
+            );
+            background-size: 100% 4px;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(15, 15, 28, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-panel-glow {
+            background: rgba(18, 18, 35, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 243, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 243, 255, 0.15);
+        }
+
+        /* Text Glitch Effect */
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff007f;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00f3ff;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim2 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(15px, 9999px, 40px, 0); }
+            20% { clip: rect(60px, 9999px, 85px, 0); }
+            40% { clip: rect(10px, 9999px, 30px, 0); }
+            60% { clip: rect(75px, 9999px, 95px, 0); }
+            80% { clip: rect(35px, 9999px, 50px, 0); }
+            100% { clip: rect(90px, 9999px, 120px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(50px, 9999px, 70px, 0); }
+            20% { clip: rect(10px, 9999px, 35px, 0); }
+            40% { clip: rect(80px, 9999px, 100px, 0); }
+            60% { clip: rect(25px, 9999px, 60px, 0); }
+            80% { clip: rect(95px, 9999px, 115px, 0); }
+            100% { clip: rect(5px, 9999px, 20px, 0); }
+        }
+
+        /* Pulse glowing border */
+        @keyframes neon-pulse {
+            0%, 100% { border-color: rgba(255, 0, 127, 0.6); box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
+            50% { border-color: rgba(0, 243, 255, 0.8); box-shadow: 0 0 25px rgba(0, 243, 255, 0.6); }
+        }
+        .neon-border-pulse {
+            animation: neon-pulse 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen selection:bg-cyber-pink selection:text-white">
+
+    <!-- Background Particles Canvas -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+    
+    <!-- CRT Scanline overlay -->
+    <div class="fixed inset-0 pointer-events-none z-50 scanline opacity-30"></div>
+
+    <!-- Navbar -->
+    <header class="fixed top-0 left-0 w-full z-40 glass-panel border-b border-white/10 px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo / Gamer Tag -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-cyber-pink to-cyber-purple flex items-center justify-center font-display font-black text-xl text-white shadow-neon-pink">
+                    M
+                </div>
+                <div>
+                    <span class="font-display font-bold text-lg tracking-wider text-white">MUSHU<span class="text-cyber-cyan">_DEV</span></span>
+                    <div class="flex items-center space-x-2 text-xs text-gray-400">
+                        <span class="inline-block w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
+                        <span>LVL 2026 // ONLINE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audio & Celebration Controls -->
+            <div class="flex items-center space-x-3">
+                <button id="sound-toggle-btn" class="px-3 py-2 rounded-lg bg-gray-800/80 hover:bg-gray-700 text-xs font-mono text-gray-300 hover:text-cyber-cyan border border-gray-700 transition-all flex items-center space-x-2">
+                    <i class="fas font-solid fa-volume-xmark text-cyber-pink" id="sound-icon"></i>
+                    <span id="sound-status">AUDIO: OFF</span>
+                </button>
+                <button id="confetti-btn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-cyber-pink to-cyber-purple hover:opacity-90 text-xs font-display font-bold text-white shadow-neon-pink transition-all transform active:scale-95 flex items-center space-x-2">
+                    <i class="fas fa-gift"></i>
+                    <span>CELEBRATE!</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <main class="relative z-10 pt-24 pb-16 px-4 max-w-7xl mx-auto space-y-16">
+
+        <!-- HERO SECTION -->
+        <section class="relative rounded-3xl glass-panel-glow p-6 sm:p-10 lg:p-12 overflow-hidden border border-cyber-cyan/30">
+            <!-- Decorative Accent Elements -->
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyber-pink/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-cyber-cyan/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                <div class="lg:col-span-7 space-y-6 text-left">
+                    <!-- Date Badge -->
+                    <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-cyber-purple/30 border border-cyber-purple text-cyber-cyan text-xs font-mono font-semibold">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>SPECIAL EVENT DATE: SEPT 16TH (EPIC EDITION)</span>
+                    </div>
+
+                    <!-- Main Title -->
+                    <h1 class="text-4xl sm:text-6xl font-black font-display tracking-tight text-white leading-none">
+                        HAPPY BELATED <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan via-cyber-pink to-cyber-yellow glitch" data-text="BIRTHDAY MUSHU!">BIRTHDAY MUSHU!</span>
+                    </h1>
+
+                    <p class="text-gray-300 text-base sm:text-lg max-w-2xl font-sans leading-relaxed">
+                        To the ultimate <span class="text-cyber-cyan font-semibold">3D Artist</span>, <span class="text-cyber-pink font-semibold">Game Developer</span>, <span class="text-cyber-yellow font-semibold">Anime Streamer</span>, and all-around gaming powerhouse! Your birthday patch release is live.
+                    </p>
+
+                    <!-- Interactive Badges -->
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-3 py-1 rounded-md glass-panel text-xs font-mono text-cyan-300 border border-cyan-500/30"><i class="fas fa-gamepad mr-1"></i> Hardcore Gamer</span>
+                        <span class="px-3 py-1 rounded-md glass-panel text-xs font-mono text-pink-300 border border-pink-500/30"><i class="fas fa-cube mr-1"></i> 3D Mesh Wizard</span>
+                        <span class="px-3 py-1 rounded-md glass-panel text-xs font-mono text-purple-300 border border-purple-500/30"><i class="fas fa-tv mr-1"></i> Anime Caster</span>
+                        <span class="px-3 py-1 rounded-md glass-panel text-xs font-mono text-yellow-300 border border-yellow-500/30"><i class="fas fa-code mr-1"></i> Engine Architect</span>
+                        <span class="px-3 py-1 rounded-md glass-panel text-xs font-mono text-green-300 border border-green-500/30"><i class="fas fa-futbol mr-1"></i> Sports Enthusiast</span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="#quest-log" class="px-6 py-3 rounded-xl bg-gradient-to-r from-cyber-cyan to-blue-600 font-display font-bold text-sm text-black hover:opacity-90 transition shadow-neon-cyan flex items-center space-x-2">
+                            <span>READ QUEST LOG</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <a href="#arcade-section" class="px-6 py-3 rounded-xl glass-panel hover:bg-white/10 font-display font-bold text-sm text-white transition border border-white/20 flex items-center space-x-2">
+                            <i class="fas fa-gamepad text-cyber-pink"></i>
+                            <span>PLAY MINI GAME</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Player Badge Card -->
+                <div class="lg:col-span-5">
+                    <div class="relative rounded-2xl p-6 glass-panel border border-white/10 text-center space-y-4 neon-border-pulse">
+                        <div class="relative w-32 h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-cyber-pink via-cyber-cyan to-cyber-yellow">
+                            <div class="w-full h-full rounded-full bg-gray-900 flex items-center justify-center overflow-hidden relative">
+                                <!-- Generated Avatar -->
+                                <i class="fas fa-user-ninja text-6xl text-cyber-cyan"></i>
+                            </div>
+                            <span class="absolute bottom-1 right-1 w-6 h-6 rounded-full bg-green-500 border-2 border-gray-900 flex items-center justify-center text-[10px] text-black font-bold">✓</span>
+                        </div>
+
+                        <div>
+                            <h2 class="font-display font-bold text-2xl text-white">PLAYER: MUSHU</h2>
+                            <p class="text-xs font-mono text-cyber-pink">CLASS: FULL-STACK GAME CREATOR</p>
+                        </div>
+
+                        <!-- Player Stats Grid -->
+                        <div class="grid grid-cols-2 gap-3 pt-2 text-left text-xs font-mono">
+                            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
+                                <span class="text-gray-400 block">3D Sculpting:</span>
+                                <span class="text-cyber-cyan font-bold">MAXED OUT (99)</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
+                                <span class="text-gray-400 block">APM Speed:</span>
+                                <span class="text-cyber-yellow font-bold">350+ BPM</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
+                                <span class="text-gray-400 block">Anime Watched:</span>
+                                <span class="text-cyber-pink font-bold">OVER 9000</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
+                                <span class="text-gray-400 block">Code Bug Free:</span>
+                                <span class="text-green-400 font-bold">100% LEGEND</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE BELATED QUEST LOG (Playful message explaining September 16th delay without forbidden words) -->
+        <section id="quest-log" class="glass-panel rounded-3xl p-6 sm:p-10 border border-cyber-pink/30 relative">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-3 rounded-xl bg-cyber-pink/20 text-cyber-pink text-xl">
+                    <i class="fas fa-scroll"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-display font-bold text-white">QUEST STATUS: TRANSMISSION DELAY</h2>
+                    <p class="text-xs font-mono text-gray-400">SERVER LOG DETAILS FOR SEPTEMBER 16TH BIRTHDAY RELEASE</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Log Item 1 -->
+                <div class="p-5 rounded-2xl bg-black/40 border border-white/10 space-y-3">
+                    <div class="flex items-center justify-between text-xs font-mono">
+                        <span class="text-cyber-cyan">MISSION REPORT 01</span>
+                        <span class="text-yellow-400"><i class="fas fa-exclamation-triangle"></i> DELAY DETECTED</span>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white">The Sept 16th Server Overload</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        On September 16th, the hype around Mushu's birthday reached levels so huge that the mainframe experienced an unexpected cool-down reboot!
+                    </p>
+                </div>
+
+                <!-- Log Item 2 -->
+                <div class="p-5 rounded-2xl bg-black/40 border border-white/10 space-y-3">
+                    <div class="flex items-center justify-between text-xs font-mono">
+                        <span class="text-cyber-pink">MISSION REPORT 02</span>
+                        <span class="text-purple-400"><i class="fas fa-dragon"></i> BOSS FIGHT ACTIVE</span>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white">Loot Drop Rendering Time</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Crafting a legendary birthday upgrade for the world's best brother required ultra-high ray tracing and custom shaders, taking a few extra days in the render farm!
+                    </p>
+                </div>
+
+                <!-- Log Item 3 -->
+                <div class="p-5 rounded-2xl bg-black/40 border border-white/10 space-y-3">
+                    <div class="flex items-center justify-between text-xs font-mono">
+                        <span class="text-green-400">MISSION REPORT 03</span>
+                        <span class="text-green-400"><i class="fas fa-check-circle"></i> PATCH DEPLOYED</span>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-white">The Ultimate Celebration</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        The delay simply means the birthday celebrations are extended indefinitely! Greatness cannot be confined to just one calendar day.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Custom Message Box -->
+            <div class="mt-8 p-6 rounded-2xl bg-gradient-to-r from-cyber-purple/30 via-black to-cyber-pink/20 border border-cyber-purple/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-cyber-yellow/20 border border-cyber-yellow flex items-center justify-center text-cyber-yellow text-2xl shrink-0">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-bold text-white text-base">EXPANDED CELEBRATION MODE</h4>
+                        <p class="text-xs text-gray-300">September 16th was just the beginning. The party continues all month long!</p>
+                    </div>
+                </div>
+                <button onclick="triggerConfetti()" class="px-5 py-2.5 rounded-xl bg-cyber-yellow text-black font-display font-bold text-xs hover:bg-yellow-300 transition shrink-0 shadow-lg shadow-yellow-500/20">
+                    CLAIM EXTRA BIRTHDAY XP <i class="fas fa-bolt ml-1"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 3D MODELING VIEWPORT (THREE.JS INTERACTIVE LAB) -->
+        <section class="glass-panel rounded-3xl p-6 sm:p-10 border border-cyber-cyan/30">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="p-3 rounded-xl bg-cyber-cyan/20 text-cyber-cyan text-xl">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-display font-bold text-white">MUSHU'S 3D VIEWPORT STUDIO</h2>
+                        <p class="text-xs font-mono text-gray-400">INTERACTIVE WEBGL MESH VISUALIZER & SHADER BENCHMARK</p>
+                    </div>
+                </div>
+                <!-- Controls bar -->
+                <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+                    <button id="btn-mesh-type" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700">MESH: ICOSPHERE</button>
+                    <button id="btn-wireframe" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-cyber-cyan border border-gray-700">WIREFRAME: OFF</button>
+                    <button id="btn-color" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-cyber-pink border border-gray-700">COLOR SCHEME</button>
+                </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden bg-black/80 border border-white/10 shadow-inner group">
+                <div id="threejs-container" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+                
+                <!-- Overlay instructions -->
+                <div class="absolute bottom-4 left-4 pointer-events-none bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 text-[11px] font-mono text-gray-400">
+                    <i class="fas fa-hand-pointer text-cyber-cyan mr-1"></i> Drag to Orbit Camera | Scroll to Zoom
+                </div>
+
+                <div class="absolute top-4 right-4 pointer-events-none bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 text-[11px] font-mono text-cyber-yellow">
+                    <i class="fas fa-tachometer-alt mr-1"></i> FPS: 60 | POLY COUNT: ULTRA
+                </div>
+            </div>
+        </section>
+
+        <!-- MINI PLAYABLE ARCADE GAME -->
+        <section id="arcade-section" class="glass-panel rounded-3xl p-6 sm:p-10 border border-cyber-yellow/30">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="p-3 rounded-xl bg-cyber-yellow/20 text-cyber-yellow text-xl">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-display font-bold text-white">RETRO CYBER-DODGE ARCADE</h2>
+                        <p class="text-xs font-mono text-gray-400">COLLECT XP ORBS & DODGE BUGS! BUILT FOR MUSHU</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 font-mono">
+                    <div class="px-4 py-2 rounded-xl bg-black/60 border border-white/10 text-center">
+                        <span class="text-[10px] text-gray-400 block">CURRENT SCORE</span>
+                        <span id="game-score" class="text-xl font-bold text-cyber-cyan">0</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-black/60 border border-white/10 text-center">
+                        <span class="text-[10px] text-gray-400 block">HIGH SCORE</span>
+                        <span id="game-highscore" class="text-xl font-bold text-cyber-yellow">999</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arcade Canvas Wrapper -->
+            <div class="relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden bg-gradient-to-b from-gray-950 to-black border border-white/10 flex items-center justify-center">
+                <canvas id="arcade-canvas" class="w-full h-full"></canvas>
+
+                <!-- Start Screen Overlay -->
+                <div id="game-start-screen" class="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20">
+                    <i class="fas fa-space-shuttle text-5xl text-cyber-cyan mb-3 animate-bounce"></i>
+                    <h3 class="text-2xl font-display font-bold text-white mb-2">CYBER XP DASH</h3>
+                    <p class="text-xs font-mono text-gray-300 max-w-md mb-6">
+                        Use <span class="text-cyber-cyan font-bold">LEFT / RIGHT ARROWS</span> or <span class="text-cyber-cyan font-bold">SWIPE / ON-SCREEN BUTTONS</span> to move Mushu's vessel. Collect glowing XP orbs while dodging red glitch bugs!
+                    </p>
+                    <button id="start-game-btn" class="px-8 py-3 rounded-xl bg-gradient-to-r from-cyber-yellow to-amber-500 text-black font-display font-bold text-sm hover:scale-105 transition shadow-lg shadow-yellow-500/30">
+                        START GAME <i class="fas fa-play ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Touch Controls -->
+            <div class="flex justify-center gap-4 mt-4 md:hidden">
+                <button id="btn-move-left" class="w-20 py-3 rounded-xl bg-gray-800 text-white font-display text-xl active:bg-cyber-cyan active:text-black border border-gray-700">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button id="btn-move-right" class="w-20 py-3 rounded-xl bg-gray-800 text-white font-display text-xl active:bg-cyber-cyan active:text-black border border-gray-700">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- MULTI-HUB SHOWCASE (ANIME STREAMER, GAME DEV, SPORTS) -->
+        <section class="glass-panel rounded-3xl p-6 sm:p-10 border border-white/10">
+            <!-- Tabs Navigation -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8">
+                <h2 class="text-2xl sm:text-3xl font-display font-bold text-white">MUSHU'S MULTI-HUB</h2>
+                <div class="flex flex-wrap gap-2 font-mono text-xs">
+                    <button class="tab-btn active px-4 py-2 rounded-xl bg-cyber-pink text-white font-bold transition" data-tab="anime-tab">
+                        <i class="fas fa-tv mr-1.5"></i> ANIME STREAM
+                    </button>
+                    <button class="tab-btn px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold transition" data-tab="dev-tab">
+                        <i class="fas fa-code mr-1.5"></i> GAME DEV TERMINAL
+                    </button>
+                    <button class="tab-btn px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold transition" data-tab="sports-tab">
+                        <i class="fas fa-trophy mr-1.5"></i> SPORTS & OUTDOORS
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 1: ANIME STREAM SIMULATOR -->
+            <div id="anime-tab" class="tab-content grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Video Player Visual Mockup -->
+                <div class="lg:col-span-8 space-y-4">
+                    <div class="relative aspect-video rounded-2xl overflow-hidden bg-black border border-white/10 shadow-2xl flex items-center justify-center group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-purple-900/40 via-black to-pink-900/30"></div>
+                        
+                        <!-- Anime Visual Element -->
+                        <div class="relative text-center p-6 space-y-4">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-cyber-pink/20 border-2 border-cyber-pink flex items-center justify-center text-cyber-pink text-3xl animate-pulse">
+                                <i class="fas fa-broadcast-tower"></i>
+                            </div>
+                            <h3 class="font-display font-bold text-2xl text-white">MUSHU_STREAM_LIVE</h3>
+                            <p class="text-xs font-mono text-cyber-cyan">CURRENTLY STREAMING: "EPIC BIRTHDAY MARATHON"</p>
+                        </div>
+
+                        <!-- Player Overlay Bar -->
+                        <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent flex items-center justify-between text-xs font-mono">
+                            <div class="flex items-center space-x-3 text-white">
+                                <i class="fas fa-play text-cyber-pink cursor-pointer"></i>
+                                <span>1080p60 FPS</span>
+                                <span class="px-2 py-0.5 rounded bg-red-600 font-bold text-[10px]">LIVE</span>
+                            </div>
+                            <div class="text-cyber-cyan">
+                                <i class="fas fa-users mr-1"></i> <span id="viewer-count">13,370</span> VIEWERS
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anime Quote Box -->
+                    <div class="p-4 rounded-xl bg-black/40 border border-white/5 flex items-center space-x-3 text-xs italic text-gray-300">
+                        <i class="fas fa-quote-left text-cyber-pink text-lg shrink-0"></i>
+                        <span>"In the world of games and code, limits are just temporary bugs waiting to be fixed." — Mushu's Stream Manifesto</span>
+                    </div>
+                </div>
+
+                <!-- Chat Simulation -->
+                <div class="lg:col-span-4 glass-panel rounded-2xl p-4 border border-white/10 flex flex-col h-80 lg:h-auto">
+                    <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3 font-mono text-xs text-gray-300">
+                        <span>STREAM CHAT</span>
+                        <span class="text-green-400">● SLOW MODE</span>
+                    </div>
+                    <div id="chat-messages" class="flex-1 overflow-y-auto space-y-2 font-mono text-xs pr-1">
+                        <!-- Simulated messages will auto populate -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: GAME DEV TERMINAL -->
+            <div id="dev-tab" class="tab-content hidden space-y-6">
+                <div class="rounded-2xl bg-gray-950 border border-white/10 p-4 font-mono text-xs overflow-x-auto">
+                    <div class="flex items-center space-x-2 pb-3 mb-3 border-b border-gray-800 text-gray-400">
+                        <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+                        <span class="ml-2 text-gray-400">mushu_game_engine.cpp</span>
+                    </div>
+                    <pre class="text-gray-300 leading-relaxed">
+<span class="text-purple-400">#include</span> <span class="text-green-300">&lt;iostream&gt;</span>
+<span class="text-purple-400">#include</span> <span class="text-green-300">&lt;legendary_brother.h&gt;</span>
+
+<span class="text-blue-400">class</span> <span class="text-yellow-300">MushuEngine</span> {
+<span class="text-blue-400">public</span>:
+    <span class="text-blue-400">void</span> <span class="text-cyber-cyan">celebrateBirthday</span>() {
+        <span class="text-gray-500">// Birthday Patch: Released Sept 16th</span>
+        <span class="text-yellow-300">GameDeveloper</span> mushu;
+        mushu.skills = {<span class="text-green-300">"3D Modeling"</span>, <span class="text-green-300">"Unreal Engine"</span>, <span class="text-green-300">"Gaming"</span>, <span class="text-green-300">"Anime Streaming"</span>};
+        
+        <span class="text-purple-400">while</span> (mushu.isAwesome()) {
+            mushu.levelUp();
+            std::cout &lt;&lt; <span class="text-green-300">"Mushu gained 10,000 XP! Next Level Unlocked!"</span> &lt;&lt; std::endl;
+        }
+    }
+};</pre>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
+                        <div class="flex justify-between text-xs font-mono text-gray-400">
+                            <span>PROJECT: CYBER RPG</span>
+                            <span class="text-cyber-cyan">IN PRODUCTION</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2">
+                            <div class="bg-cyber-cyan h-2 rounded-full w-4/5"></div>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-black/40 border border-white/5 space-y-2">
+                        <div class="flex justify-between text-xs font-mono text-gray-400">
+                            <span>PROJECT: 3D ANIME WORLD</span>
+                            <span class="text-cyber-pink">COMPILING SHADERS</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2">
+                            <div class="bg-cyber-pink h-2 rounded-full w-3/4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: SPORTS & OUTDOORS -->
+            <div id="sports-tab" class="tab-content hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-black/40 border border-white/10 text-center space-y-3">
+                    <div class="w-14 h-14 mx-auto rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl">
+                        <i class="fas fa-basketball-ball"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-white text-lg">Basketball & Sports</h3>
+                    <p class="text-xs text-gray-300">High agility, perfect court vision, and clutch plays both on real courts and virtual ones.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-black/40 border border-white/10 text-center space-y-3">
+                    <div class="w-14 h-14 mx-auto rounded-xl bg-green-500/20 text-green-400 flex items-center justify-center text-2xl">
+                        <i class="fas fa-table-tennis-paddle-ball"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-white text-lg">Table Tennis & Indoor Games</h3>
+                    <p class="text-xs text-gray-300">Lightning-fast reflexes and spin masters. Unbeatable precision across indoor arenas.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-black/40 border border-white/10 text-center space-y-3">
+                    <div class="w-14 h-14 mx-auto rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-2xl">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-white text-lg">Outdoor Exploration</h3>
+                    <p class="text-xs text-gray-300">Taking game development stamina outdoors for real-world adventures and physical training.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center pt-8 border-t border-white/10 text-gray-400 font-mono text-xs space-y-2">
+            <p>DESIGNED WITH PASSION FOR BROTHER <span class="text-cyber-cyan font-bold">MUSHU</span></p>
+            <p class="text-gray-500">SEPTEMBER 16TH LEGENDARY EDITION // ALL RIGHTS RESERVED</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Web Audio API Synthesizer for Retro Sound FX
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+                this.enabled = false;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            playBeep(freq = 440, type = 'sine', duration = 0.1) {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch (e) {}
+            }
+
+            playLevelUp() {
+                if (!this.enabled || !this.ctx) return;
+                const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
+                notes.forEach((freq, index) => {
+                    setTimeout(() => this.playBeep(freq, 'triangle', 0.15), index * 80);
+                });
+            }
+        }
+
+        const sfx = new SoundFX();
+
+        // Sound Toggle
+        const soundBtn = document.getElementById('sound-toggle-btn');
+        const soundIcon = document.getElementById('sound-icon');
+        const soundStatus = document.getElementById('sound-status');
+
+        soundBtn.addEventListener('click', () => {
+            sfx.init();
+            sfx.enabled = !sfx.enabled;
+            if (sfx.enabled) {
+                soundIcon.className = 'fas fa-volume-high text-green-400';
+                soundStatus.innerText = 'AUDIO: ON';
+                sfx.playLevelUp();
+            } else {
+                soundIcon.className = 'fas fa-volume-xmark text-cyber-pink';
+                soundStatus.innerText = 'AUDIO: OFF';
+            }
+        });
+
+        function triggerConfetti() {
+            sfx.playLevelUp();
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ff007f', '#00f3ff', '#7928ca', '#f5d020']
+                });
+            }
+        }
+        document.getElementById('confetti-btn').addEventListener('click', triggerConfetti);
+
+        const bgCanvas = document.getElementById('bg-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        let bgParticles = [];
+
+        function resizeBgCanvas() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeBgCanvas);
+        resizeBgCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = Math.random() * bgCanvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = Math.random() > 0.5 ? '#00f3ff' : '#ff007f';
+                this.alpha = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > bgCanvas.width || this.y < 0 || this.y > bgCanvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                bgCtx.save();
+                bgCtx.globalAlpha = this.alpha;
+                bgCtx.fillStyle = this.color;
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                bgCtx.fill();
+                bgCtx.restore();
+            }
+        }
+
+        for (let i = 0; i < 70; i++) bgParticles.push(new Particle());
+
+        function animateBgParticles() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            bgParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateBgParticles);
+        }
+        animateBgParticles();
+
+        let scene, camera, renderer, currentMesh;
+        let isWireframe = false;
+        let meshType = 0; // 0: Icosphere, 1: TorusKnot, 2: Cube
+        const colorSchemes = [0x00f3ff, 0xff007f, 0xf5d020, 0x7928ca];
+        let colorIdx = 0;
+
+        function initThreeJS() {
+            const container = document.getElementById('threejs-container');
+            if (!container) return;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 3.5;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0x00f3ff, 1.5);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            createMesh();
+
+            // Simple Mouse Drag Orbit
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+
+            container.addEventListener('mousedown', e => { isDragging = true; });
+            container.addEventListener('mousemove', e => {
+                if (isDragging && currentMesh) {
+                    const deltaMove = {
+                        x: e.offsetX - previousMousePosition.x,
+                        y: e.offsetY - previousMousePosition.y
+                    };
+                    currentMesh.rotation.y += deltaMove.x * 0.01;
+                    currentMesh.rotation.x += deltaMove.y * 0.01;
+                }
+                previousMousePosition = { x: e.offsetX, y: e.offsetY };
+            });
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+
+            animateThreeJS();
+        }
+
+        function createMesh() {
+            if (currentMesh) scene.remove(currentMesh);
+
+            let geometry;
+            if (meshType === 0) {
+                geometry = new THREE.IcosahedronGeometry(1.2, 2);
+            } else if (meshType === 1) {
+                geometry = new THREE.TorusKnotGeometry(0.8, 0.28, 100, 16);
+            } else {
+                geometry = new THREE.BoxGeometry(1.4, 1.4, 1.4);
+            }
+
+            const material = new THREE.MeshStandardMaterial({
+                color: colorSchemes[colorIdx],
+                wireframe: isWireframe,
+                roughness: 0.2,
+                metalness: 0.8
+            });
+
+            currentMesh = new THREE.Mesh(geometry, material);
+            scene.add(currentMesh);
+        }
+
+        function animateThreeJS() {
+            requestAnimationFrame(animateThreeJS);
+            if (currentMesh) {
+                currentMesh.rotation.y += 0.005;
+                currentMesh.rotation.x += 0.003;
+            }
+            renderer.render(scene, camera);
+        }
+
+        document.getElementById('btn-wireframe').addEventListener('click', (e) => {
+            isWireframe = !isWireframe;
+            e.target.innerText = `WIREFRAME: ${isWireframe ? 'ON' : 'OFF'}`;
+            createMesh();
+            sfx.playBeep(600);
+        });
+
+        document.getElementById('btn-mesh-type').addEventListener('click', (e) => {
+            meshType = (meshType + 1) % 3;
+            const names = ['ICOSPHERE', 'TORUS KNOT', 'CUBE'];
+            e.target.innerText = `MESH: ${names[meshType]}`;
+            createMesh();
+            sfx.playBeep(700);
+        });
+
+        document.getElementById('btn-color').addEventListener('click', () => {
+            colorIdx = (colorIdx + 1) % colorSchemes.length;
+            createMesh();
+            sfx.playBeep(800);
+        });
+
+        const arcadeCanvas = document.getElementById('arcade-canvas');
+        const arcadeCtx = arcadeCanvas.getContext('2d');
+        let gameRunning = false;
+        let gameScore = 0;
+        let player, gems, obstacles;
+
+        function initArcadeGame() {
+            arcadeCanvas.width = arcadeCanvas.parentElement.clientWidth;
+            arcadeCanvas.height = arcadeCanvas.parentElement.clientHeight;
+
+            player = {
+                x: arcadeCanvas.width / 2 - 20,
+                y: arcadeCanvas.height - 40,
+                width: 40,
+                height: 20,
+                speed: 6,
+                dx: 0
+            };
+
+            gems = [];
+            obstacles = [];
+            gameScore = 0;
+            document.getElementById('game-score').innerText = '0';
+        }
+
+        function spawnGameEntities() {
+            if (Math.random() < 0.03) {
+                gems.push({
+                    x: Math.random() * (arcadeCanvas.width - 20),
+                    y: -20,
+                    size: 15,
+                    speed: 2 + Math.random() * 2
+                });
+            }
+            if (Math.random() < 0.02) {
+                obstacles.push({
+                    x: Math.random() * (arcadeCanvas.width - 20),
+                    y: -20,
+                    size: 18,
+                    speed: 3 + Math.random() * 2.5
+                });
+            }
+        }
+
+        function updateGame() {
+            if (!gameRunning) return;
+
+            player.x += player.dx;
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > arcadeCanvas.width) player.x = arcadeCanvas.width - player.width;
+
+            // Update Gems
+            for (let i = gems.length - 1; i >= 0; i--) {
+                const g = gems[i];
+                g.y += g.speed;
+                // Collision with player
+                if (g.x < player.x + player.width && g.x + g.size > player.x &&
+                    g.y < player.y + player.height && g.y + g.size > player.y) {
+                    gems.splice(i, 1);
+                    gameScore += 10;
+                    document.getElementById('game-score').innerText = gameScore;
+                    sfx.playBeep(880, 'sine', 0.08);
+                } else if (g.y > arcadeCanvas.height) {
+                    gems.splice(i, 1);
+                }
+            }
+
+            // Update Obstacles
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                const o = obstacles[i];
+                o.y += o.speed;
+                if (o.x < player.x + player.width && o.x + o.size > player.x &&
+                    o.y < player.y + player.height && o.y + o.size > player.y) {
+                    // Game Over
+                    gameRunning = false;
+                    sfx.playBeep(150, 'sawtooth', 0.3);
+                    document.getElementById('game-start-screen').classList.remove('hidden');
+                    return;
+                } else if (o.y > arcadeCanvas.height) {
+                    obstacles.splice(i, 1);
+                }
+            }
+
+            spawnGameEntities();
+        }
+
+        function drawGame() {
+            arcadeCtx.clearRect(0, 0, arcadeCanvas.width, arcadeCanvas.height);
+
+            if (!gameRunning) return;
+
+            // Draw Player
+            arcadeCtx.fillStyle = '#00f3ff';
+            arcadeCtx.shadowColor = '#00f3ff';
+            arcadeCtx.shadowBlur = 10;
+            arcadeCtx.fillRect(player.x, player.y, player.width, player.height);
+
+            // Draw Gems
+            arcadeCtx.fillStyle = '#f5d020';
+            arcadeCtx.shadowColor = '#f5d020';
+            arcadeCtx.shadowBlur = 8;
+            gems.forEach(g => {
+                arcadeCtx.beginPath();
+                arcadeCtx.arc(g.x + g.size/2, g.y + g.size/2, g.size/2, 0, Math.PI * 2);
+                arcadeCtx.fill();
+            });
+
+            // Draw Obstacles
+            arcadeCtx.fillStyle = '#ff007f';
+            arcadeCtx.shadowColor = '#ff007f';
+            arcadeCtx.shadowBlur = 8;
+            obstacles.forEach(o => {
+                arcadeCtx.fillRect(o.x, o.y, o.size, o.size);
+            });
+
+            arcadeCtx.shadowBlur = 0;
+        }
+
+        function gameLoop() {
+            updateGame();
+            drawGame();
+            requestAnimationFrame(gameLoop);
+        }
+
+        document.getElementById('start-game-btn').addEventListener('click', () => {
+            document.getElementById('game-start-screen').classList.add('hidden');
+            initArcadeGame();
+            gameRunning = true;
+            sfx.playBeep(520);
+        });
+
+        // Key controls
+        window.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') player.dx = -player.speed;
+            if (e.key === 'ArrowRight') player.dx = player.speed;
+        });
+        window.addEventListener('keyup', e => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') player.dx = 0;
+        });
+
+        // Touch controls
+        const leftBtn = document.getElementById('btn-move-left');
+        const rightBtn = document.getElementById('btn-move-right');
+        leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); player.dx = -player.speed; });
+        leftBtn.addEventListener('touchend', (e) => { e.preventDefault(); player.dx = 0; });
+        rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); player.dx = player.speed; });
+        rightBtn.addEventListener('touchend', (e) => { e.preventDefault(); player.dx = 0; });
+
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.getAttribute('data-tab');
+
+                tabBtns.forEach(b => {
+                    b.classList.remove('bg-cyber-pink', 'text-white');
+                    b.classList.add('bg-gray-800', 'text-gray-300');
+                });
+                btn.classList.remove('bg-gray-800', 'text-gray-300');
+                btn.classList.add('bg-cyber-pink', 'text-white');
+
+                tabContents.forEach(c => c.classList.add('hidden'));
+                document.getElementById(target).classList.remove('hidden');
+                sfx.playBeep(450);
+            });
+        });
+
+        const simulatedUsers = ['PixelKnight', 'GamerX', 'OtakuSensei', 'MeshWizard', 'ZeroTwoFan', 'SpeedRunner99'];
+        const simulatedComments = [
+            'Happy Belated Birthday Mushu! 🎉',
+            'Best 3D dev in the scene!',
+            'LEVEL UP!! 🚀',
+            'Sept 16th hype never ends!',
+            'Unreal Engine master in the house!',
+            'Drop the new game trailer 🔥'
+        ];
+
+        function addChatMessage() {
+            const chatContainer = document.getElementById('chat-messages');
+            if (!chatContainer) return;
+
+            const user = simulatedUsers[Math.floor(Math.random() * simulatedUsers.length)];
+            const text = simulatedComments[Math.floor(Math.random() * simulatedComments.length)];
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'p-1.5 rounded bg-black/30 border border-white/5 flex items-start space-x-2';
+            msgDiv.innerHTML = `<span class="text-cyber-cyan font-bold">${user}:</span> <span class="text-gray-200">${text}</span>`;
+            
+            chatContainer.appendChild(msgDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            if (chatContainer.children.length > 20) {
+                chatContainer.removeChild(chatContainer.firstChild);
+            }
+        }
+
+        setInterval(addChatMessage, 2500);
+
+        window.onload = function() {
+            initThreeJS();
+            initArcadeGame();
+            gameLoop();
+        };
+    </script>
+</body>
+</html>
